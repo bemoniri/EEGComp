@@ -1,0 +1,2 @@
+# EEGComp
+EEE Competition
