@@ -1,0 +1,13 @@
+%% Healthy Subjects
+
+clc
+clear all
+close all
+
+Num_Subj = 2;
+
+
+for subj = 1 : Num_Subj
+    load(['Filtered_Normal/subj',num2str(Num_Subj),'.mat'])
+    Feature(subj, :) = Feature_Extractor(New_Sig');
+end

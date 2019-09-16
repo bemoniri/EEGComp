@@ -1,15 +1,13 @@
 clc
-clear all
-close all
-
+clear all\
 for subj = 1 : 196
     close all
     subj
-    %addpath('New_Shuffled_Train(disorder)')
+    addpath('New_Shuffled_Train(disorder)')
     addpath('EEGTools')
-    EEGstruct = load(['New_Shuffled_Train(normal)/subj_',num2str(subj),'.mat']);
+    EEGstruct = load(['subj_',num2str(subj),'.mat']);
     names = fieldnames(EEGstruct);
-    EEG_Sig = EEGstruct.(names{1});
+    EEG_Sig = EEGstruct.(names{1})
     feq = 512 ;
 
     h = BPF(200,eps,45,feq);
@@ -25,8 +23,6 @@ for subj = 1 : 196
     hold on
     plot(abs(fftshift(fft(EEG_Sig(:, 2)))))
     plot(abs(fftshift(fft(New_Sig(:, 2)))))
-    New_Sig = New_Sig(1:4:end, :);
-    feq = 512/4;
     name = ['subj', num2str(subj), '.mat'];
     save(name, 'New_Sig');
 end
@@ -47,7 +43,7 @@ Scom2 = pinv(Acom2)*X ; % Independent Sources
 
 offset = max(abs(Scom2(:))) ;
 feq = 512 ;
-disp_eeg(Scom2,offset, feq, 1:19,'Sources');
+disp_eeg(Scom2,offset, feq, 1:19);
 Sel_Sources = 1:19;
 
 %%
