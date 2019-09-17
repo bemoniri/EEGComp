@@ -18,7 +18,9 @@ for i = 1 : size(Data,1)
     
     data = Data(i,:);
     
-    Feat = [Feat , mean(data)];     % Average of Each Channel
+    Feat = [Feat , mean(data)];     % Average of Each Channel1
+    Label = [Label , length(mean(data))];     % Average of Each Channel1
+    
     Feat = [Feat , var(data)];      % Variance of Each Channel
     
     Feat = [Feat, (data * data')];  % Energy of Each Channel
