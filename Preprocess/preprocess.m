@@ -2,12 +2,12 @@ clc
 clear all
 close all
 
-for subj = 1 : 196
+for subj = 1 : 73
     close all
     subj
     %addpath('New_Shuffled_Train(disorder)')
-    addpath('EEGTools')
-    EEGstruct = load(['New_Shuffled_Train(normal)/subj_',num2str(subj),'.mat']);
+    %addpath('EEGTools')
+    EEGstruct = load(['subj_',num2str(subj),'.mat']);
     names = fieldnames(EEGstruct);
     EEG_Sig = EEGstruct.(names{1});
     feq = 512 ;

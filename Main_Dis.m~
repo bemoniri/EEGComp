@@ -1,0 +1,105 @@
+%% EEG Competition 1398
+    
+    % We Are Going to Win :D
+    
+    clear all
+    clc
+    close all
+    
+%% Parameters and Constant Variables
+
+    Fs = 128;
+    Time = [ 0 : 30 * Fs - 1 ] / Fs;
+%% Our Main Code Body 
+
+    % first, lets open the data
+    
+    Main_Dir = './';    % Change to your desired location
+    Dir = [Main_Dir, 'Filtered_Normal\']; 
+   
+    files = ls(Dir);
+    c = 1;
+    
+    % To find size
+        gamma = strtrim ( files(3,:) );
+        D = load( [ Dir , gamma ] );
+        Data = D .New_Sig;
+        
+        Mean_Norm = zeros(size(Data,1) , size(Data,2));
+        Mean_AbNorm = zeros(size(Data,1) , size(Data,2));
+
+    for f = 3 : size(files,1)
+    
+        gamma = strtrim ( files(f,:) );
+        D = load( [ Dir , gamma ] );
+        Data = D .New_Sig;
+        
+        % Re-referencing
+        for j = 1 : size(Data,1)
+            Data(j,:) = Data(j,:) - mean(Data(j,:));
+        end
+        
+        
+        Mean_Norm = Mean_Norm + Data;
+        
+        c = c + 1;
+             
+    end
+    Mean_Norm = Mean_Norm / c;
+    
+    % Same for Abnormal
+    
+    Dir = [Main_Dir, 'Filtered_Dis\']; 
+   
+    files = ls(Dir);
+    c = 1;
+    
+
+    for f = 3 : size(files,1)
+    
+        gamma = strtrim ( files(f,:) );
+        D = load( [ Dir , gamma ] );
+        Data = D .New_Sig;
+        
+        % Re-referencing
+        for j = 1 : size(Data,1)
+            Data(j,:) = Data(j,:) - mean(Data(j,:));
+        end
+        
+        
+        Mean_AbNorm = Mean_AbNorm + Data;
+        
+        c = c + 1;
+             
+    end
+    Mean_AbNorm = Mean_AbNorm / c;
+    
+    
+    
+
+    
+%%  Feature Extraction
+
+    clear Data;
+
+        Dir = [Main_Dir, 'Filtered_Normal\'];
+        %Dir = [Main_Dir, 'Filtered_Dis\'];
+        
+    files = ls(Dir);        
+
+    c = 1;
+    for f = 3 : size(files,1)
+    
+        gamma = strtrim ( files(f,:) );
+        D = load( [ Dir , gamma ] );
+        Data = D .New_Sig;
+        for j = 1 : size(Data,1)
+            Data(j,:) = Data(j,:) - mean(Data(j,:));
+        end
+        
+        Features_Dis(c,:) = Feature_Extractor( Data' , Fs , Mean_Norm' , Mean_AbNorm');
+        c = c + 1
+        
+            
+    end
+    
